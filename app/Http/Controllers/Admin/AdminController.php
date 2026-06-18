@@ -282,7 +282,7 @@ class AdminController extends Controller
             'username' => 'required|string|unique:users,username',
             'full_name' => 'required|string',
             'email' => 'nullable|email',
-            'role' => 'required|in:admin,timdis,mahasiswa',
+            'role' => 'required|in:admin,timdis,mahasiswa,garda',
             'password' => 'required|string|min:6',
             'mahasiswa_id' => 'nullable|string',
         ]);

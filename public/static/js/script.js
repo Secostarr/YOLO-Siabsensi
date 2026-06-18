@@ -55,7 +55,7 @@ async function loadUserPermissions() {
         can_manage_users: currentUser.role === 'admin',
         can_edit_settings: currentUser.role === 'admin',
         can_manage_mahasiswa: currentUser.role === 'admin',
-        can_verify_submissions: currentUser.role === 'timdis'
+        can_verify_submissions: currentUser.role === 'timdis' || currentUser.role === 'garda'
       };
       
       // Apply UI restrictions based on permissions
@@ -73,7 +73,23 @@ async function loadUserPermissions() {
 // ─── Apply Role-Based UI Restrictions ──────────────────────────────────────
 function applyRoleBasedUI() {
   if (!userPermissions) return;
-  
+
+  // Garda / Timdis: hanya menampilkan Verifikasi Izin/Sakit & Verifikasi Kehadiran (absen manual)
+  if (currentUser && (currentUser.role === 'garda' || currentUser.role === 'timdis')) {
+    const allowedPages = ['izin-timdis', 'kehadiran-timdis'];
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const onclick = item.getAttribute('onclick') || '';
+      const isLogout = onclick.includes('logout');
+      const isAllowed = allowedPages.some(p => onclick.includes("'" + p + "'"));
+      if (!isAllowed && !isLogout) item.style.display = 'none';
+    });
+    document.querySelectorAll('.nav-section').forEach(section => {
+      if (!section.textContent.includes('Verifikasi')) section.style.display = 'none';
+    });
+    showPage('izin-timdis');
+    return;
+  }
+
   // Hide User Management menu for non-admin
   if (!userPermissions.can_manage_users) {
     const userMgmtMenu = document.querySelector('.nav-item[onclick*="users"]');
@@ -205,7 +221,10 @@ function showPage(page) {
         if (!userPermissions) {
           await loadUserPermissions();
         }
-        
+
+        // Garda tidak punya akses data dashboard; UI sudah dialihkan ke halaman verifikasi
+        if (currentUser && currentUser.role === 'garda') return;
+
         const res = await apiFetch('/dashboard');
         if (!res) {
           console.error('[Dashboard] Response API gagal ditarik (Cek tab Network di Console Browser)');
@@ -2285,6 +2304,7 @@ function renderUsers(users) {
     const roleBadge = {
       'admin': '<span class="badge" style="background:#ff6b6b;color:white">Admin</span>',
       'timdis': '<span class="badge" style="background:#f5a623;color:white">Tim Disiplin</span>',
+      'garda': '<span class="badge" style="background:#7c5cff;color:white">Garda</span>',
       'mahasiswa': '<span class="badge badge-blue">Mahasiswa</span>'
     }[user.role] || user.role;
     

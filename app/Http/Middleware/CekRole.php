@@ -36,6 +36,7 @@ class CekRole
                 'admin' => redirect()->route('admin.dashboard')->with('error', 'Akses ditolak: Anda tidak memiliki izin untuk halaman tersebut.'),
                 'timdis' => redirect()->route('timdis.dashboard')->with('error', 'Akses ditolak: Anda tidak memiliki izin untuk halaman tersebut.'),
                 'mahasiswa' => redirect()->route('mahasiswa.dashboard')->with('error', 'Akses ditolak: Anda tidak memiliki izin untuk halaman tersebut.'),
+                'garda' => redirect()->route('garda.dashboard')->with('error', 'Akses ditolak: Anda tidak memiliki izin untuk halaman tersebut.'),
                 default => redirect()->route('login')->with('error', 'Role tidak dikenali.'),
             };
         }

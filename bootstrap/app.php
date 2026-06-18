@@ -37,6 +37,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return route('timdis.dashboard'); // Akses disesuaikan dengan rute dashboard timdis
             } elseif ($role === 'mahasiswa') {
                 return route('mahasiswa.dashboard'); // Sesuaikan dengan rute dashboard mahasiswa
+            } elseif ($role === 'garda') {
+                return route('garda.dashboard'); // Dashboard khusus garda (verifikasi)
             }
 
             Auth::logout();

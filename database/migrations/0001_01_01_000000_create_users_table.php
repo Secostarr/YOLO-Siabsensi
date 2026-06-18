@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password_hash', 255);
             $table->string('full_name', 255);
             $table->string('email', 255)->nullable();
-            $table->enum('role', ['admin', 'timdis', 'mahasiswa'])->default('mahasiswa');
+            $table->enum('role', ['admin', 'timdis', 'mahasiswa', 'garda'])->default('mahasiswa');
             $table->string('mahasiswa_id', 50)->nullable();
             $table->tinyInteger('is_active')->nullable()->default(1);
             $table->dateTime('last_login')->nullable();
