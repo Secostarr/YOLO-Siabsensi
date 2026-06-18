@@ -99,7 +99,7 @@ class AuthController extends Controller
                     'can_manage_users' => $user->role === 'admin',
                     'can_edit_settings' => $user->role === 'admin',
                     'can_manage_mahasiswa' => $user->role === 'admin',
-                    'can_verify_submissions' => $user->role === 'timdis',
+                    'can_verify_submissions' => in_array($user->role, ['timdis', 'garda']),
                 ],
             ],
         ]);

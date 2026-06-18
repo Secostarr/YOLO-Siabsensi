@@ -36,6 +36,7 @@ Route::get('/', function () {
             'admin' => redirect()->route('admin.dashboard'),
             'timdis' => redirect()->route('timdis.dashboard'),
             'mahasiswa' => redirect()->route('mahasiswa.dashboard'),
+            'garda' => redirect()->route('garda.dashboard'),
             default => redirect()->route('login'),
         };
     }
@@ -248,16 +249,21 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::get('/api/mahasiswa/{mahasiswaId}/sertifikat/history', [SertifikatController::class, 'history']);
 });
 
-// Routes untuk Admin & Timdis (Lihat daftar pengajuan)
-Route::middleware(['auth', 'role:admin,timdis'])->group(function () {
+// Routes untuk Admin, Timdis & Garda (Lihat daftar pengajuan)
+Route::middleware(['auth', 'role:admin,timdis,garda'])->group(function () {
     Route::get('/api/izin/list', [AdminController::class, 'getIzinSubmissions']);
     Route::get('/api/kehadiran/list', [AdminController::class, 'getKehadiranSubmissions']);
 });
 
-// Routes untuk Timdis Only (Verifikasi aksi)
-Route::middleware(['auth', 'role:timdis'])->group(function () {
+// Routes untuk Timdis & Garda (Verifikasi aksi)
+Route::middleware(['auth', 'role:timdis,garda'])->group(function () {
     Route::post('/api/izin/verify', [AdminController::class, 'verifyIzin']);
     Route::post('/api/kehadiran/verify', [AdminController::class, 'verifyKehadiran']);
+});
+
+// Routes untuk Garda (Dashboard verifikasi saja)
+Route::middleware(['auth', 'role:garda'])->group(function () {
+    Route::get('/garda/dashboard', [AdminController::class, 'dashboard_admin'])->name('garda.dashboard');
 });
 
 // Routes untuk Admin Only (bukan timdis)

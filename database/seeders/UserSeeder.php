@@ -41,7 +41,19 @@ class UserSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
-            // 3. Akun Mahasiswa
+            // 3. Akun Garda (Verifikasi sakit & absen manual)
+            [
+                'username' => 'garda',
+                'password_hash' => Hash::make('garda123'),
+                'full_name' => 'Petugas Garda',
+                'email' => 'garda@siabsen.test',
+                'role' => 'garda',
+                'mahasiswa_id' => null,
+                'is_active' => 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            // 4. Akun Mahasiswa
             [
                 'username' => 'mhs001',
                 'password_hash' => Hash::make('mhs123'),

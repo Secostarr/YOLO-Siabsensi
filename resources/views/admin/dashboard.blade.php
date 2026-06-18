@@ -770,6 +770,7 @@
                 <option value="">Semua</option>
                 <option value="admin">Admin</option>
                 <option value="timdis">Tim Disiplin</option>
+                <option value="garda">Garda</option>
                 <option value="mahasiswa">Mahasiswa</option>
               </select>
             </div>
@@ -856,6 +857,7 @@
             <option value="">-- Pilih Role --</option>
             <option value="admin">Admin</option>
             <option value="timdis">Tim Disiplin</option>
+            <option value="garda">Garda</option>
             <option value="mahasiswa">Mahasiswa</option>
           </select>
         </div>
