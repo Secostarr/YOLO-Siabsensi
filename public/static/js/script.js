@@ -73,7 +73,23 @@ async function loadUserPermissions() {
 // ─── Apply Role-Based UI Restrictions ──────────────────────────────────────
 function applyRoleBasedUI() {
   if (!userPermissions) return;
-  
+
+  // Garda (Timdis): hanya menampilkan Verifikasi Izin/Sakit & Verifikasi Kehadiran (absen manual)
+  if (currentUser && currentUser.role === 'timdis') {
+    const allowedPages = ['izin-timdis', 'kehadiran-timdis'];
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const onclick = item.getAttribute('onclick') || '';
+      const isLogout = onclick.includes('logout');
+      const isAllowed = allowedPages.some(p => onclick.includes("'" + p + "'"));
+      if (!isAllowed && !isLogout) item.style.display = 'none';
+    });
+    document.querySelectorAll('.nav-section').forEach(section => {
+      if (!section.textContent.includes('Verifikasi')) section.style.display = 'none';
+    });
+    showPage('izin-timdis');
+    return;
+  }
+
   // Hide User Management menu for non-admin
   if (!userPermissions.can_manage_users) {
     const userMgmtMenu = document.querySelector('.nav-item[onclick*="users"]');
